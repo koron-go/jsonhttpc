@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"mime"
@@ -29,6 +30,16 @@ func New(baseURL *url.URL) *Client {
 	}
 }
 
+// Clone create a clone of Client.
+func (c *Client) Clone() *Client {
+	nc := *c
+	nc.h = nil
+	if len(c.h) > 0 {
+		nc.h = c.h.Clone()
+	}
+	return &nc
+}
+
 // WithBaseURL overrides base URL to use.
 func (c *Client) WithBaseURL(u *url.URL) *Client {
 	c.u = u
@@ -49,7 +60,15 @@ func (c *Client) WithHeader(h http.Header) *Client {
 
 // Do makes a HTTP request to the server with JSON body, and parse a JSON in
 // response body.
+//
+// `ctx` can be nil, in that case it use `context.Background()` instead.
+//
+// This returns an error when `pathOrURL` starts with "jsonhttpc.Parse error: "
+// to treat `Path()`'s failure as error.
 func (c *Client) Do(ctx context.Context, method, pathOrURL string, body, receiver interface{}) error {
+	if strings.HasPrefix(pathOrURL, "jsonhttpc.Parse error: ") {
+		return errors.New(pathOrURL)
+	}
 	// prepare the request.
 	if ctx == nil {
 		ctx = context.Background()
