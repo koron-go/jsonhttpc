@@ -24,6 +24,8 @@ type Client struct {
 }
 
 // New creates a new Client with base URL.
+// You can pass nil to baseURL, in which case you should pass a complete URL to
+// the pathOrURL argument of Do() function.
 func New(baseURL *url.URL) *Client {
 	return &Client{
 		u: baseURL,
@@ -66,13 +68,6 @@ func (c *Client) WithHeader(h http.Header) *Client {
 // This returns an error when `pathOrURL` starts with "jsonhttpc.Parse error: "
 // to treat `Path()`'s failure as error.
 func (c *Client) Do(ctx context.Context, method, pathOrURL string, body, receiver interface{}) error {
-	if strings.HasPrefix(pathOrURL, "jsonhttpc.Parse error: ") {
-		return errors.New(pathOrURL)
-	}
-	if ctx == nil {
-		ctx = context.Background()
-	}
-
 	// prepare the request.
 	req, err := c.newRawRequest(ctx, method, pathOrURL, body)
 	if err != nil {
@@ -134,6 +129,9 @@ func (c *Client) newRawRequest(ctx context.Context, method, pathOrURL string, bo
 }
 
 func (c *Client) parseURL(pathOrURL string) (*url.URL, error) {
+	if strings.HasPrefix(pathOrURL, "jsonhttpc.Parse error: ") {
+		return nil, errors.New(pathOrURL)
+	}
 	if c.u != nil {
 		return c.u.Parse(pathOrURL)
 	}

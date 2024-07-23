@@ -111,6 +111,7 @@ func parseError(r *http.Response) (*Error, error) {
 	return er, nil
 }
 
+// Error returns error message.
 func (er *Error) Error() string {
 	return fmt.Sprintf("error: status=%q props=%#v", er.Status, er.Properties)
 }
