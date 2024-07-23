@@ -1,3 +1,3 @@
 module github.com/koron-go/jsonhttpc
 
-go 1.13
+go 1.21.12

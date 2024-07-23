@@ -1,8 +1,7 @@
 # JSON specified HTTP client
 
-[![GoDoc](https://godoc.org/github.com/koron-go/jsonhttpc?status.svg)](https://godoc.org/github.com/koron-go/jsonhttpc)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/koron-go/jsonhttpc)](https://pkg.go.dev/github.com/koron-go/jsonhttpc)
 [![Actions/Go](https://github.com/koron-go/jsonhttpc/workflows/Go/badge.svg)](https://github.com/koron-go/jsonhttpc/actions?query=workflow%3AGo)
-[![CircleCI](https://img.shields.io/circleci/project/github/koron-go/jsonhttpc/master.svg)](https://circleci.com/gh/koron-go/jsonhttpc/tree/master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/koron-go/jsonhttpc)](https://goreportcard.com/report/github.com/koron-go/jsonhttpc)
 
 Package jsonhttpc provides JSON specialized HTTP Client.
