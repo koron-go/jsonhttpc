@@ -69,23 +69,15 @@ func (c *Client) Do(ctx context.Context, method, pathOrURL string, body, receive
 	if strings.HasPrefix(pathOrURL, "jsonhttpc.Parse error: ") {
 		return errors.New(pathOrURL)
 	}
-	// prepare the request.
 	if ctx == nil {
 		ctx = context.Background()
 	}
-	u, err := c.parseURL(pathOrURL)
+
+	// prepare the request.
+	req, err := c.newRawRequest(ctx, method, pathOrURL, body)
 	if err != nil {
 		return err
 	}
-	r, err := c.bodyReader(body)
-	if err != nil {
-		return err
-	}
-	req, err := http.NewRequestWithContext(ctx, method, u.String(), r)
-	if err != nil {
-		return err
-	}
-	c.setupHeader(req, body)
 
 	// make messages round trip.
 	c.logReq(ctx, req)
@@ -122,6 +114,23 @@ func (c *Client) Do(ctx context.Context, method, pathOrURL string, body, receive
 		return err
 	}
 	return nil
+}
+
+func (c *Client) newRawRequest(ctx context.Context, method, pathOrURL string, body any) (*http.Request, error) {
+	u, err := c.parseURL(pathOrURL)
+	if err != nil {
+		return nil, err
+	}
+	r, err := c.bodyReader(body)
+	if err != nil {
+		return nil, err
+	}
+	req, err := http.NewRequestWithContext(ctx, method, u.String(), r)
+	if err != nil {
+		return nil, err
+	}
+	c.setupHeader(req, body)
+	return req, nil
 }
 
 func (c *Client) parseURL(pathOrURL string) (*url.URL, error) {

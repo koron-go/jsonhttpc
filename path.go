@@ -16,7 +16,7 @@ type Params map[string]interface{}
 // '\' escapes a rune succeeding.
 //
 // This returns a string with prefix "jsonhttpc.Parse error: " if detects some
-// errors, 
+// errors.
 func Path(s string, p Params) string {
 	s2, err := path(s, p)
 	if err != nil {
