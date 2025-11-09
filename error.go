@@ -60,7 +60,7 @@ type Error struct {
 	Detail   string
 	Instance string
 
-	Properties map[string]interface{}
+	Properties map[string]any
 }
 
 var _ error = (*Error)(nil)
@@ -72,7 +72,7 @@ func parseError(r *http.Response) (*Error, error) {
 		ContentType: r.Header.Get("Content-Type"),
 	}
 
-	var props map[string]interface{}
+	var props map[string]any
 	err := json.NewDecoder(r.Body).Decode(&props)
 	if err != nil {
 		return nil, newSystemError(r, fmt.Errorf("failed to decode error JSON: %w", err))

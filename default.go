@@ -9,6 +9,6 @@ var DefaultClient = &Client{}
 // response body using `DefaultClient`.
 //
 // See `Client.Do()` for details.
-func Do(ctx context.Context, method, pathOrURL string, body, receiver interface{}) error {
+func Do(ctx context.Context, method, pathOrURL string, body, receiver any) error {
 	return DefaultClient.Do(ctx, method, pathOrURL, body, receiver)
 }

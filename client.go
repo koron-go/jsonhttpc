@@ -67,7 +67,7 @@ func (c *Client) WithHeader(h http.Header) *Client {
 //
 // This returns an error when `pathOrURL` starts with "jsonhttpc.Parse error: "
 // to treat `Path()`'s failure as error.
-func (c *Client) Do(ctx context.Context, method, pathOrURL string, body, receiver interface{}) error {
+func (c *Client) Do(ctx context.Context, method, pathOrURL string, body, receiver any) error {
 	// prepare the request.
 	req, err := c.newRawRequest(ctx, method, pathOrURL, body)
 	if err != nil {
@@ -138,7 +138,7 @@ func (c *Client) parseURL(pathOrURL string) (*url.URL, error) {
 	return url.Parse(pathOrURL)
 }
 
-func (c *Client) bodyReader(body interface{}) (io.Reader, error) {
+func (c *Client) bodyReader(body any) (io.Reader, error) {
 	if body == nil {
 		return nil, nil
 	}
@@ -150,7 +150,7 @@ func (c *Client) bodyReader(body interface{}) (io.Reader, error) {
 	return bb, nil
 }
 
-func (c *Client) setupHeader(req *http.Request, body interface{}) {
+func (c *Client) setupHeader(req *http.Request, body any) {
 	if len(c.h) > 0 {
 		req.Header = c.h.Clone()
 	}
@@ -170,7 +170,7 @@ type contentTyper interface {
 	ContentType() string
 }
 
-func (c *Client) getContentType(v interface{}) string {
+func (c *Client) getContentType(v any) string {
 	if w, ok := v.(contentTyper); ok {
 		return w.ContentType()
 	}

@@ -8,7 +8,7 @@ import (
 )
 
 // Params is a parameters for path templating.
-type Params map[string]interface{}
+type Params map[string]any
 
 // Path provides path templating.
 //
