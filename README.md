@@ -2,7 +2,6 @@
 
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/koron-go/jsonhttpc)](https://pkg.go.dev/github.com/koron-go/jsonhttpc)
 [![Actions/Go](https://github.com/koron-go/jsonhttpc/workflows/Go/badge.svg)](https://github.com/koron-go/jsonhttpc/actions?query=workflow%3AGo)
-[![Go Report Card](https://goreportcard.com/badge/github.com/koron-go/jsonhttpc)](https://goreportcard.com/report/github.com/koron-go/jsonhttpc)
 
 Package jsonhttpc provides a way to easily send and receive HTTP requests with JSON bodies.
 
